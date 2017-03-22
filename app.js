@@ -6,6 +6,8 @@ var SpotifyWebApi = require('spotify-web-api-node');
 
 dotenv.load();
 
+const PORT = process.env.PORT || 5000;
+
 var spotifyApi = new SpotifyWebApi({
   clientId     : process.env.SPOTIFY_KEY,
   clientSecret : process.env.SPOTIFY_SECRET,
@@ -62,6 +64,7 @@ app.post('/store', function(req, res) {
   spotifyApi.refreshAccessToken()
     .then(function(data) {
       spotifyApi.setAccessToken(data.body['access_token']);
+        console.log('here');
       if (data.body['refresh_token']) {
         spotifyApi.setRefreshToken(data.body['refresh_token']);
       }
@@ -97,5 +100,5 @@ app.post('/store', function(req, res) {
     });
 });
 
-app.set('port', (process.env.PORT || 5000));
-app.listen(app.get('port'));
+app.listen(PORT);
+console.log('App listening on %d', PORT);
